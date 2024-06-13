@@ -1,0 +1,38 @@
+---
+title: "6/12/2024"
+author: "Nicholas Oliver Silveira Powell"
+format: html
+execute: 
+  echo: false
+---
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+library(ggbeeswarm)
+nyc_data <- read_csv("data/nyc_tracts.csv")
+```
+
+```{r}
+#| label: plot
+#| warning: false
+
+drop_na |> 
+  ggplot(data = nyc_data, mapping = aes(x = med_income, y = race, color = med_income)) + 
+  geom_quasirandom(size = 2, alpha = 0.6, groupOnX = FALSE) +
+  scale_color_viridis_c(guide = "none") + 
+  theme_minimal() + 
+  theme(legend.position = "none",
+        plot.title = element_text(size = 16, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 10)) + 
+  scale_x_continuous(labels = scales::dollar_format()) + 
+  labs(title = "Household income distribution by largest racial/ethnic group",
+       subtitle = "Census tracts, New York City",
+       x = "Median household income",
+       y = "Largest group in Census tract",
+       caption = "Data source: 2016-2020 ACS")
+```
+
